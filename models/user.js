@@ -1,6 +1,6 @@
 // Load required packages
 var mongoose = require('mongoose');
-
+var bcrypt  = require('bcrypt')
 // Define our user schema
 var UserSchema = new mongoose.Schema({
     FirstName: String,
@@ -28,6 +28,13 @@ var UserSchema = new mongoose.Schema({
     }]
 
 });
+userSchema.methods.generateHash = function(Password) {
+	return bcrypt.hashSync(Password, bcrypt.genSaltSync(8), null);
+};
+
+userSchema.methods.validPassword = function(Password) {
+	return bcrypt.compareSync(Password, this.Password);
+};
 
 // Export the Mongoose model
 module.exports = mongoose.model('User', UserSchema);
