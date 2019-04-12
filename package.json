@@ -1,5 +1,5 @@
 {
-  "name": "WeWheel-backend",
+  "name": "wewheel-backend",
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon --exec node server.js"
