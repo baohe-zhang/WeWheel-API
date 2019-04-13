@@ -3,13 +3,14 @@ var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     secrets = require('./config/secrets'),
-    bodyParser = require('body-parser');
-
+    bodyParser = require('body-parser'),
+    User = require('./models/user'),
+    passport = require('./config/passport')
 // Create our Express application
 var app = express();
 
 // Use environment defined port or 4000
-var port = process.env.PORT || 4000;
+var port = process.env.PORT || 3500;
 
 // Connect to a MongoDB
 mongoose.connect(secrets.mongo_connection,  { useNewUrlParser: true });
