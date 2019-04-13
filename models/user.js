@@ -61,7 +61,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-UserSchema.methods.validPassword = function(password) {
+UserSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 

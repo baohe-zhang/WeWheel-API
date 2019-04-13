@@ -1,0 +1,9 @@
+{
+	"FirstName": "zhang",
+	"LastName": "baohe34",
+	"Email": "baohe.zhang123@qq.com",
+	"UserName": "baohezhang123",
+	"password": "123456789",
+	"MyCars": [],
+	"RentedCars": []
+}
