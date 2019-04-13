@@ -37,7 +37,6 @@ exports.auth_a_user = function(req, res) {
             data: req.body.UserName
           });
         }
-
         user.comparePassword(req.body.password, function(err, isMatch) {
           if (err) {
             return res.status(400).json({
@@ -46,6 +45,7 @@ exports.auth_a_user = function(req, res) {
           }
           if (isMatch) {
             console.log(req.isAuthenticated());
+            console.log(req.user);
             res.status(200).send({
               message: "successfully login in",
               data: req.body.UserName

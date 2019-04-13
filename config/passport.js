@@ -27,9 +27,7 @@ module.exports = passport => {
           .then(user => {
             if (!user || !user.validatePassword(password)) {
               return done(null, false, {
-                errors: {
-                  "username or password": "is invalid"
-                }
+                errors: "username or password is invalid."
               });
             }
             return done(null, user);
