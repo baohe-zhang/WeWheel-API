@@ -1,4 +1,5 @@
 // Load required packages
+<<<<<<< HEAD
 var mongoose = require('mongoose');
 var bcrypt  = require('bcrypt')
 const SALT_WORK_FACTOR = 10;
@@ -61,7 +62,46 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 UserSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
     
+=======
+var mongoose = require("mongoose");
+var bcrypt = require("bcrypt");
+// Define our user schema
+var UserSchema = new mongoose.Schema({
+  FirstName: String,
+  LastName: String,
+  Email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  UserName: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  PassWord: {
+    type: String,
+    required: true
+  },
+  MyCars: [
+    {
+      type: String
+    }
+  ],
+  RentedCars: [
+    {
+      type: String
+    }
+  ]
+});
+userSchema.methods.generateHash = function(Password) {
+  return bcrypt.hashSync(Password, bcrypt.genSaltSync(8), null);
+};
+
+userSchema.methods.validPassword = function(Password) {
+  return bcrypt.compareSync(Password, this.Password);
+>>>>>>> e6938aace70c14ecb33c14275d8bf6f64a23a51b
 };
 
 // Export the Mongoose model
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
