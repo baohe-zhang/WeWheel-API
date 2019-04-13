@@ -5,15 +5,17 @@ var express = require('express'),
     secrets = require('./config/secrets'),
     bodyParser = require('body-parser'),
     User = require('./models/user'),
-    passport = require('./config/passport')
+    passport = require('passport');
 // Create our Express application
 var app = express();
 
 // Use environment defined port or 4000
-var port = process.env.PORT || 3500;
+var port = process.env.PORT || 4000;
 
 // Connect to a MongoDB
-mongoose.connect(secrets.mongo_connection,  { useNewUrlParser: true });
+mongoose.connect(secrets.mongo_connection, {
+    useNewUrlParser: true
+});
 
 // Allow CORS so that backend and frontend could be put on different servers
 var allowCrossDomain = function (req, res, next) {
@@ -30,8 +32,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+// Use passport middleware
+require('./config/passport')(passport);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Use routes as a module (see index.js)
-require('./routes')(app, router);
+require('./routes')(app, router, passport);
 
 // Start the server
 app.listen(port);
