@@ -3,7 +3,7 @@ User = mongoose.model("User");
 
 var url = require("url");
 
-exports.create_a_user = function(req, res) {
+exports.create_a_user = (req, res) => {
   var newUser = new User({
     UserName: req.body.UserName,
     password: req.body.password,
@@ -11,21 +11,27 @@ exports.create_a_user = function(req, res) {
     LastName: req.body.LastName || "",
     Email: req.body.Email
   });
-  newUser.save((err, user) => {
-    if (err) throw err;
-    res.status(200).json({
-      message: "OK",
-      data: user
-    });
-  });
+  newUser.save()
+    .exec()
+    .then(doc => {
+      res.status(201).json({
+        message: "Create OK",
+        data: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Failed to create a car",
+        data: []
+      });
+    })
 };
 
-exports.auth_a_user = function(req, res) {
-  User.findOne(
-    {
+exports.auth_a_user = (req, res) => {
+  User.findOne({
       UserName: req.body.UserName
     },
-    function(err, user) {
+    (err, user) => {
       if (err) {
         res.status(404).send({
           message: err
@@ -37,7 +43,7 @@ exports.auth_a_user = function(req, res) {
             data: req.body.UserName
           });
         }
-        user.comparePassword(req.body.password, function(err, isMatch) {
+        user.comparePassword(req.body.password, function (err, isMatch) {
           if (err) {
             return res.status(400).json({
               message: err
@@ -62,14 +68,55 @@ exports.auth_a_user = function(req, res) {
   );
 };
 
-exports.log_out_user = function(req, res) {
+exports.log_out_user = (req, res) => {
   req.logOut();
   res.redirect("/");
 };
 
-exports.update_a_user = function(req, res) {
-  let a = req.isAuthenticated();
-  res.status(200).send({
-    data: a
-  });
+exports.update_a_user = (req, res) => {
+  User.findByIdAndUpdate({
+      _id: req.params.userId
+    }, req.body, {
+      new: true
+    })
+    .exec()
+    .then(doc => {
+      res.status(200).json({
+        message: "PUT OK",
+        data: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Failed to updat a car",
+        data: []
+      });
+    })
+
+
+};
+
+exports.delete_a_user = (req, res) => {
+  const userId = req.params.id;
+  User.findByIdAndDelete(userId)
+    .exec()
+    .then(doc => {
+      if (!doc) {
+        res.status(404).json({
+          message: 'Cannot find the user with id ${userId}',
+          data: []
+        });
+      } else {
+        res.status(200).json({
+          messge: "DELETE OK",
+          data: doc
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Failed to delete a car",
+        data: []
+      });
+    });
 };
