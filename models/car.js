@@ -3,28 +3,42 @@ var mongoose = require("mongoose");
 
 // Define our user schema
 var CarSchema = new mongoose.Schema({
-  Vid: {
-    type: String
+  vid: {
+    type: String,
+    required: true,
+    unique: true
   },
-  UserId: String,
-  Brand: String,
-  Model: {
-    type: String
+  userId: {
+    type: String,
+    default: ""
   },
-  Description: {
-    type: String
+  brand: {
+    type: String,
+    default: ""
   },
-  Picture_url: {
-    type: String
+  model: {
+    type: String,
+    default: ""
   },
-  Capacity: {
-    type: Number
+  description: {
+    type: String,
+    default: ""
   },
-  Rating: {
-    type: Number
+  image_url: {
+    type: String,
+    default: ""
   },
-  RentCount: {
-    type: Number
+  capacity: {
+    type: Number,
+    default: 4
+  },
+  rating: {
+    type: Number,
+    default: 0
+  },
+  rentCount: {
+    type: Number,
+    default: 0
   }
 });
 

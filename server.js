@@ -4,8 +4,12 @@ var express = require("express"),
   mongoose = require("mongoose"),
   secrets = require("./config/secrets"),
   bodyParser = require("body-parser"),
-  User = require("./models/user"),
   passport = require("passport");
+
+// import model
+var User = require("./models/user"),
+  Car = require("./models/car");
+
 // Create our Express application
 var app = express();
 

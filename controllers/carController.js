@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const url = require("url");
+
 const Car = mongoose.model("Car");
 
 /* Find all cars that match specific query conditions. */
@@ -37,26 +39,53 @@ exports.findCars = (req, res) => {
     if (parsedUrl.query.limit)
       query = query.limit(JSON.parse(parsedUrl.query.limit));
     else query = query.limit(100);
+
+    // execute query
+    query
+      .exec()
+      .then(docs => {
+        if (docs == null || docs.length == 0) {
+          res.status(404).json({
+            message: "Cannot find users under these conditions",
+            data: []
+          });
+        } else {
+          res.status(200).json({
+            message: "GET OK",
+            data: docs
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: "Failed to get cars",
+          data: []
+        });
+      });
   }
-  // execute query
-  query
+};
+
+/* Find a car by id. */
+exports.findCarById = (req, res) => {
+  const carId = req.params.id;
+  Car.findById(carId)
     .exec()
-    .then(docs => {
-      if (docs == null || docs.length == 0) {
+    .then(doc => {
+      if (!doc) {
         res.status(404).json({
-          message: "Cannot find users under these conditions",
+          message: `Cannot find the car with id ${carId}`,
           data: []
         });
       } else {
         res.status(200).json({
-          message: "GET OK",
-          data: docs
+          messgae: "GET OK",
+          data: doc
         });
       }
     })
     .catch(err => {
       res.status(500).json({
-        message: "Failed to get cars",
+        message: `Failed to find the car with id ${carId}`,
         data: []
       });
     });
