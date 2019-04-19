@@ -26,7 +26,7 @@ module.exports = function (app, router, passport) {
     //.post(passport.authenticate('local'), car.createCar);
     .post(car.createCar);
   app
-    .route("/api/car/:carId")
+    .route("/api/cars")
     .get(car.findCars)
   app
     .route("/api/car/:carId")
