@@ -8,7 +8,7 @@ var RateSchema = new mongoose.Schema({
   },
   CarId: String,
   Content: {
-    type: String
+    type: Number,
   },
   Date: {
     type: Date,

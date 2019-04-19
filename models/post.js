@@ -23,6 +23,10 @@ var PostSchema = new mongoose.Schema({
   PostDate: {
     type: Date,
     default: Date.now
+  },
+  IsCommented: {
+    type: Boolean,
+    default: false
   }
 });
 

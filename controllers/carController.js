@@ -66,6 +66,8 @@ exports.findCars = (req, res) => {
 exports.createCar = (req, res) => {
   let car = req.body;
   car = new Car(car);
+
+
   car
     .save()
     .then(doc => {
@@ -77,7 +79,7 @@ exports.createCar = (req, res) => {
     .catch(err => {
       res.status(500).json({
         message: "Failed to create a car",
-        data: []
+        data: err
       });
     });
 };
@@ -86,7 +88,11 @@ exports.createCar = (req, res) => {
 exports.updateCarById = (req, res) => {
   const car = req.body;
   const carId = req.params.id;
-  Car.findByIdAndUpdate(carId, { $set: car }, { new: true })
+  Car.findByIdAndUpdate(carId, {
+      $set: car
+    }, {
+      new: true
+    })
     .exec()
     .then(doc => {
       res.status(200).json({

@@ -4,17 +4,16 @@ var mongoose = require("mongoose");
 // Define our user schema
 var CarSchema = new mongoose.Schema({
   Vid: {
-    type: String
+    type: String,
+    unique: true
   },
   UserId: String,
   Brand: String,
-  Model: {
-    type: String
-  },
+
   Description: {
     type: String
   },
-  Picture_url: {
+  Picture: {
     type: String
   },
   Capacity: {
