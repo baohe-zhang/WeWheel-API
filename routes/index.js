@@ -37,7 +37,7 @@ module.exports = function (app, router, passport) {
     .route("/api/posts/createPost")
     .post(post.createPost);
   app
-    .route("/api/post/:postId")
+    .route("/api/posts/")
     .get(post.findPost)
   app
     .route("/api/post/:postId")
