@@ -8,13 +8,16 @@ var express = require("express"),
 
 // import model
 var User = require("./models/user"),
-  Car = require("./models/car");
+  Car = require("./models/car"),
+  Post = require("./models/post"),
+  Comment = require("./models/comment"),
+  Rate = require("./models/rate");
 
 // Create our Express application
 var app = express();
 
 // Use environment defined port or 4000
-var port = process.env.PORT || 3500;
+var port = process.env.PORT || 4000;
 
 // Connect to a MongoDB
 mongoose.connect(secrets.mongo_connection, {

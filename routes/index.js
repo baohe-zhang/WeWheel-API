@@ -1,7 +1,6 @@
 /*
  * Connect all of your endpoints together here.
  */
-<<<<<<< HEAD
 
 module.exports = function (app, router, passport) {
   app.use("/api", require("./home.js")(router));
@@ -9,14 +8,10 @@ module.exports = function (app, router, passport) {
   var user = require("../controllers/userController");
   var car = require("../controllers/carController");
   var post = require("../controllers/postController");
-  //User functions
-=======
-module.exports = function(app, router, passport) {
-  app.use("/api", require("./home.js")(router));
+  var comment = require("../controllers/commentController");
+  var rate = require("../controllers/rateController");
 
-  // Users route
-  const user = require("../controllers/usersController");
->>>>>>> a0bdadb3e8de2049b75107b9e3360f2352ca16c5
+  //User functions
   app.route("/api/users/register").post(user.create_a_user);
   app
     .route("/api/users/login")
@@ -24,7 +19,6 @@ module.exports = function(app, router, passport) {
   app.route("/api/users/logout").post(user.log_out_user);
   app.route("/api/users/:userId").post(user.update_a_user);
   app.route("/api/users/delete/:userId").delete(user.delete_a_user);
-<<<<<<< HEAD
   //car function
 
   app
@@ -35,7 +29,7 @@ module.exports = function(app, router, passport) {
     .route("/api/car/:carId")
     .get(car.findCars)
   app
-    .route("/api/car/:userId/:carId")
+    .route("/api/car/:carId")
     .put(passport.authenticate('local'), car.updateCarById)
     .delete(passport.authenticate('local'), car.deleteCarById);
   //post function
@@ -46,20 +40,19 @@ module.exports = function(app, router, passport) {
     .route("/api/post/:postId")
     .get(post.findPost)
   app
-    .route("/api/post/:userId/:postId")
+    .route("/api/post/:postId")
     .put(passport.authenticate('local'), post.updatePostById)
     .delete(passport.authenticate('local'), post.deletePostById)
 
+  //Rate function
+  app
+    .route("/api/rates/createRate")
+    .post(rate.createRate)
+  app
+    .route("/api/rates/:rateId")
+    .put(rate.updateRateById)
+    .delete(rate.deleteRateById)
+
+
 
 };
-=======
-
-  // Cars route
-  const car = require("../controllers/carController");
-  app.route("/api/cars").post(car.createCar);
-  app.route("/api/cars").get(car.findCars);
-  app.route("/api/cars/:id").get(car.findCarById);
-  app.route("/api/cars/:id").put(car.updateCarById);
-  app.route("/api/cars/:id").delete(car.deleteCarById);
-};
->>>>>>> a0bdadb3e8de2049b75107b9e3360f2352ca16c5

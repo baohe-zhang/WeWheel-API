@@ -125,7 +125,7 @@ exports.updateCarById = (req, res) => {
     .exec()
     .then(doc => {
       res.status(200).json({
-        message: "PUT OK",
+        message: "Update OK",
         data: doc
       });
     })
