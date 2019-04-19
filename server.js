@@ -4,19 +4,12 @@ var express = require("express"),
   mongoose = require("mongoose"),
   secrets = require("./config/secrets"),
   bodyParser = require("body-parser"),
-  User = require("./models/user"),
-  Car = require("./models/car"),
-  Post = require("./models/post"),
-  fs = require('fs'),
-  Schema = mongoose.Schema,
-
-  multer = require("multer"),
-  upload = multer({
-    dest: 'uploads/'
-  }),
-
-
   passport = require("passport");
+
+// import model
+var User = require("./models/user"),
+  Car = require("./models/car");
+
 // Create our Express application
 var app = express();
 
