@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Post = mongoose.model('Post');
+const url = require("url");
 
 exports.createPost = (req, res) => {
     let post = req.body;
