@@ -28,6 +28,7 @@ var PostSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+
   Capacity: {
     type: Number,
     default: 4
