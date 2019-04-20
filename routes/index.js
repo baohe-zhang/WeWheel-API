@@ -37,12 +37,13 @@ module.exports = function (app, router, passport) {
     .route("/api/posts/createPost")
     .post(post.createPost);
   app
-    .route("/api/posts/")
-    .get(post.findPost)
+    .route("/api/posts")
+    .get(post.findPost);
   app
     .route("/api/post/:postId")
-    .put(passport.authenticate('local'), post.updatePostById)
-    .delete(passport.authenticate('local'), post.deletePostById)
+    //    .put(passport.authenticate('local'), post.updatePostById)
+    .put(post.updatePostById)
+    .delete(passport.authenticate('local'), post.deletePostById);
 
   //Rate function
   app

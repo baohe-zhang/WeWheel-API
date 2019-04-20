@@ -25,12 +25,13 @@ exports.createPost = (req, res) => {
 
 exports.updatePostById = (req, res) => {
     const post = req.body;
-    const postId = req.params.id;
-    Post.findByIdAndUpdate(postId, {
-            $set: post
-        }, {
-            new: true
-        })
+    const postId = req.params.postId;
+    Post.findByIdAndUpdate(
+            postId, {
+                $set: post
+            }, {
+                new: true
+            })
         .exec()
         .then(doc => {
             res.status(200).json({
@@ -41,7 +42,7 @@ exports.updatePostById = (req, res) => {
         .catch(err => {
             res.status(500).json({
                 message: "Failed to update a post",
-                data: []
+                data: err
             });
         });
 };
@@ -74,28 +75,29 @@ exports.findPost = (req, res) => {
             query = query.limit(JSON.parse(parsedUrl.query.limit));
         else query = query.limit(500);
 
-    }
-    query
-        .exec()
-        .then(docs => {
-            if (docs == null || docs.length == 0) {
-                res.status(404).json({
-                    message: "Cannot find posts under these conditions",
+
+        query
+            .exec()
+            .then(docs => {
+                if (docs == null || docs.length == 0) {
+                    res.status(404).json({
+                        message: "Cannot find posts under these conditions",
+                        data: []
+                    });
+                } else {
+                    res.status(200).json({
+                        message: "Find post OK",
+                        data: docs
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: "Failed to get posts",
                     data: []
                 });
-            } else {
-                res.status(200).json({
-                    message: "Find post OK",
-                    data: docs
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                message: "Failed to get posts",
-                data: []
             });
-        });
+    }
 };
 
 exports.deletePostById = (req, res) => {
