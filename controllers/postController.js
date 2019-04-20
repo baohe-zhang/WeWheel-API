@@ -48,6 +48,8 @@ exports.updatePostById = (req, res) => {
 };
 
 exports.findPost = (req, res) => {
+    console.log("hi");
+
     const parsedUrl = url.parse(req.url, true);
     if (!parsedUrl.search) {
         Post.find()
@@ -61,20 +63,20 @@ exports.findPost = (req, res) => {
             })
     } else {
         let query = Post.find();
-        /*
-        if (parsedUrl.query.startDate && parsedUrl.query.endDate) {
+
+        if (parsedUrl.query.StartDate && parsedUrl.query.EndDate) {
             query = query.find({
-                startDate: {
-                    $gte: ISODate(parsedUrl.query.startDate)
+                StartDate: {
+                    $gte: parsedUrl.query.StartDate
                 }
             });
             query = query.find({
-                endDate: {
-                    $lt: ISODate(parsedUrl.query.endDate)
+                EndDate: {
+                    $lt: parsedUrl.query.EndDate
                 }
             });
         }
-        */
+        console.log("djkqjwhkjdqw");
         if (parsedUrl.query.where)
             query = query.where(JSON.parse(parsedUrl.query.where));
         if (parsedUrl.query.sort)
@@ -89,7 +91,7 @@ exports.findPost = (req, res) => {
             query = query.limit(JSON.parse(parsedUrl.query.limit));
 
         else query = query.limit(500);
-
+        //dkuegwh
 
         query
             .exec()
@@ -101,7 +103,7 @@ exports.findPost = (req, res) => {
                     });
                 } else {
                     res.status(200).json({
-                        message: "Find post OK",
+                        message: "Find post OK 123",
                         data: docs
                     });
                 }
