@@ -1,6 +1,6 @@
 // Load required packages
 var mongoose = require("mongoose");
-var DateOnly = require('mongoose-dateonly')(mongoose);
+
 // Define our user schema
 var PostSchema = new mongoose.Schema({
   CarId: {
@@ -9,10 +9,10 @@ var PostSchema = new mongoose.Schema({
   UserId: String,
   Location: String,
   StartDate: {
-    type: DateOnly
+    type: Date
   },
   EndDate: {
-    type: DateOnly
+    type: Date
   },
   PricePerHour: {
     type: Number
@@ -21,8 +21,8 @@ var PostSchema = new mongoose.Schema({
     type: Number
   },
   PostDate: {
-    type: DateOnly,
-    default: DateOnly.now
+    type: Date,
+    default: Date.now
   },
   IsCommented: {
     type: Boolean,

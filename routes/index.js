@@ -30,6 +30,7 @@ module.exports = function (app, router, passport) {
     .get(car.findCars)
   app
     .route("/api/car/:carId")
+    .get(car.findCarById)
     .put(passport.authenticate('local'), car.updateCarById)
     .delete(passport.authenticate('local'), car.deleteCarById);
   //post function

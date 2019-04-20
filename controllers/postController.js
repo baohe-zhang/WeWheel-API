@@ -48,19 +48,33 @@ exports.updatePostById = (req, res) => {
 };
 
 exports.findPost = (req, res) => {
-    const parseUrl = url.parse(req.url, true);
-    if (!parseUrl.search) {
+    const parsedUrl = url.parse(req.url, true);
+    if (!parsedUrl.search) {
         Post.find()
             .limit(100)
             .exec()
             .then(docs => {
                 res.status(200).json({
-                    message: "Find Post",
+                    message: "OKKKKKK",
                     data: docs
                 });
             })
     } else {
         let query = Post.find();
+        /*
+        if (parsedUrl.query.startDate && parsedUrl.query.endDate) {
+            query = query.find({
+                startDate: {
+                    $gte: ISODate(parsedUrl.query.startDate)
+                }
+            });
+            query = query.find({
+                endDate: {
+                    $lt: ISODate(parsedUrl.query.endDate)
+                }
+            });
+        }
+        */
         if (parsedUrl.query.where)
             query = query.where(JSON.parse(parsedUrl.query.where));
         if (parsedUrl.query.sort)
@@ -73,6 +87,7 @@ exports.findPost = (req, res) => {
             query = query.count(JSON.parse(parsedUrl.query.count));
         if (parsedUrl.query.limit)
             query = query.limit(JSON.parse(parsedUrl.query.limit));
+
         else query = query.limit(500);
 
 
