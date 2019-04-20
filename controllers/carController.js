@@ -67,14 +67,15 @@ exports.findCars = (req, res) => {
 
 /* Find a car by id. */
 exports.findCarById = (req, res) => {
-  const carId = req.params.id;
+  const carId = req.params.carId;
+  console.log("dhajkshfas");
   Car.findById(carId)
     .exec()
     .then(doc => {
       if (!doc) {
         res.status(404).json({
-          message: `Cannot find the car with id ${carId}`,
-          data: []
+          message: `Cannot find the car 123 with id ${carId}`,
+          data: carId
         });
       } else {
         res.status(200).json({
@@ -117,6 +118,7 @@ exports.createCar = (req, res) => {
 exports.updateCarById = (req, res) => {
   const car = req.body;
   const carId = req.params.id;
+
   Car.findByIdAndUpdate(carId, {
       $set: car
     }, {
