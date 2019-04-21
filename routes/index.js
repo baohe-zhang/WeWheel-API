@@ -15,10 +15,12 @@ module.exports = function (app, router, passport) {
   app.route("/api/users/register").post(user.create_a_user);
   app
     .route("/api/users/login")
-    .post(passport.authenticate("local"), user.auth_a_user);
-  app.route("/api/users/logout").post(user.log_out_user);
+    .post(passport.authenticate('local'), user.auth_a_user);
+  app.route("/api/users/logout").post(passport.authenticate('local'), user.log_out_user);
   app.route("/api/users/:userId").post(user.update_a_user);
   app.route("/api/users/delete/:userId").delete(user.delete_a_user);
+
+
   //car function
 
   app
@@ -39,7 +41,7 @@ module.exports = function (app, router, passport) {
     .post(post.createPost);
   app
     .route("/api/posts")
-    .get(post.findPost);
+    .get(post.findPostsWithCar);
   app
     .route("/api/post/:postId")
     //    .put(passport.authenticate('local'), post.updatePostById)

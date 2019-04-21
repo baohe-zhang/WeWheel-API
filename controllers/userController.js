@@ -13,11 +13,13 @@ exports.create_a_user = (req, res) => {
     Email: req.body.Email
   });
   */
+  console.log(req.isAuthenticated());
   let newUser = req.body;
   newUser = new User(newUser);
   newUser
     .save()
     .then(doc => {
+      console.log(req.isAuthenticated());
       res.status(201).json({
         message: "Create OK",
         data: doc
@@ -25,13 +27,14 @@ exports.create_a_user = (req, res) => {
     })
     .catch(err => {
       res.status(500).json({
-        message: "Failed to create a car",
+        message: "Failed to create a User",
         data: []
       });
     })
 };
 
 exports.auth_a_user = (req, res) => {
+  console.log(req.isAuthenticated());
   User.findOne({
       UserName: req.body.UserName
     },
@@ -73,8 +76,11 @@ exports.auth_a_user = (req, res) => {
 };
 
 exports.log_out_user = (req, res) => {
+  console.log(req.isAuthenticated());
   req.logOut();
   res.redirect("/");
+  console.log(req.isAuthenticated());
+
 };
 
 exports.update_a_user = (req, res) => {
