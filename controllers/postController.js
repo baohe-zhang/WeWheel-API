@@ -4,7 +4,9 @@ const url = require("url");
 
 exports.createPost = (req, res) => {
     let post = req.body;
+
     post = new Post(post);
+
 
     post
         .save()
@@ -67,16 +69,21 @@ exports.findPost = (req, res) => {
         if (parsedUrl.query.StartDate && parsedUrl.query.EndDate) {
             query = query.find({
                 StartDate: {
-                    $gte: parsedUrl.query.StartDate
+
+                    $lt: new Date(parsedUrl.query.StartDate + 'GMT-07:00').toISOString()
                 }
             });
+
+            console.log(new Date(parsedUrl.query.StartDate).toISOString())
+
             query = query.find({
                 EndDate: {
-                    $lt: parsedUrl.query.EndDate
+                    $gte: new Date(parsedUrl.query.EndDate).toISOString()
                 }
             });
+
         }
-        console.log("djkqjwhkjdqw");
+
         if (parsedUrl.query.where)
             query = query.where(JSON.parse(parsedUrl.query.where));
         if (parsedUrl.query.sort)

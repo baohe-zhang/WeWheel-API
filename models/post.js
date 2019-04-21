@@ -1,6 +1,6 @@
 // Load required packages
 var mongoose = require("mongoose");
-
+var DateOnly = require('mongoose-dateonly')(mongoose);
 // Define our user schema
 var PostSchema = new mongoose.Schema({
   CarId: {
