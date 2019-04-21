@@ -148,3 +148,46 @@ exports.deletePostById = (req, res) => {
             });
         });
 };
+
+exports.findPostsWithCar = (req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    if (!parsedUrl.search) {
+        Post.find()
+            .limit(100)
+            .exec()
+            .then(posts => {
+                let carIdList = [];
+                posts.map(post => {
+                    if (post.CarId) {
+                        carIdList.push(post.CarId);
+                    }
+                });
+                Car.find()
+                    .where({
+                        _id: {
+                            $in: carIdList
+                        }
+                    })
+                    .exec()
+                    .then(cars => {
+                        let data = [];
+                        posts.map(post => {
+                            cars.forEach(car => {
+                                if (post.CarId == car.id) {
+                                    let postWithCar = JSON.parse(JSON.stringify(post));
+                                    postWithCar.Car = car;
+                                    data.push(postWithCar);
+                                }
+                            });
+                        });
+                        console.log(data);
+                        res.status(200).json({
+                            message: "OK",
+                            data: data
+                        });
+                    });
+            });
+    } else {
+        console.log("todo");
+    }
+};
