@@ -31,7 +31,7 @@ var PostSchema = new mongoose.Schema({
 
   Capacity: {
     type: Number,
-    default: 4
+    default: 5
   },
 });
 

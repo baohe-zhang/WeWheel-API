@@ -74,7 +74,7 @@ exports.findPost = (req, res) => {
                 }
             });
 
-            console.log(new Date(parsedUrl.query.StartDate).toISOString())
+            //    console.log(new Date(parsedUrl.query.StartDate).toISOString())
 
             query = query.find({
                 EndDate: {
@@ -152,6 +152,7 @@ exports.deletePostById = (req, res) => {
 exports.findPostsWithCar = (req, res) => {
     console.log("jhqwkfhjk");
     const parsedUrl = url.parse(req.url, true);
+
     if (!parsedUrl.search) {
         Post.find()
             .limit(100)
@@ -181,7 +182,7 @@ exports.findPostsWithCar = (req, res) => {
                                 }
                             });
                         });
-                        console.log(data);
+                        //  console.log(data);
                         res.status(200).json({
                             message: "OK",
                             data: data
@@ -210,8 +211,14 @@ exports.findPostsWithCar = (req, res) => {
 
         }
         console.log(parsedUrl.query);
-        if (parsedUrl.query.where && parsedUrl.query.where != "*")
-            query = query.where(JSON.parse(parsedUrl.query.where));
+        if (parsedUrl.query.Capacity && parsedUrl.query.Capacity != "*")
+            query = query.where({
+                Capacity: parsedUrl.query.Capacity
+            });
+        if (parsedUrl.query.Location && parsedUrl.query.Location != "*")
+            query = query.where({
+                Location: parsedUrl.query.Location
+            });
         if (parsedUrl.query.sort && parsedUrl.query.sort != "*")
             query = query.sort(JSON.parse(parsedUrl.query.sort));
         if (parsedUrl.query.select && parsedUrl.query.select != "*")
@@ -253,7 +260,7 @@ exports.findPostsWithCar = (req, res) => {
                                 }
                             });
                         });
-                        console.log(data);
+                        // console.log(data);
                         res.status(200).json({
                             message: "OK",
                             data: data

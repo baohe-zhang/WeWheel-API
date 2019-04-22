@@ -7,7 +7,7 @@ module.exports = function (app, router, passport) {
 
   var user = require("../controllers/userController");
   var car = require("../controllers/carController");
-  var post = require("../controllers/postController");
+  var post = require("../routes/postController");
   var comment = require("../controllers/commentController");
   var rate = require("../controllers/rateController");
 

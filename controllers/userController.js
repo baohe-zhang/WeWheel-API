@@ -16,6 +16,7 @@ exports.create_a_user = (req, res) => {
   console.log(req.isAuthenticated());
   let newUser = req.body;
   newUser = new User(newUser);
+
   newUser
     .save()
     .then(doc => {
