@@ -17,7 +17,9 @@ module.exports = function (app, router, passport) {
     .route("/api/users/login")
     .post(passport.authenticate('local'), user.auth_a_user);
   app.route("/api/users/logout").post(passport.authenticate('local'), user.log_out_user);
-  app.route("/api/users/:userId").post(user.update_a_user);
+  app.route("/api/users/:userId")
+    .post(user.update_a_user)
+    .get(user.findUserById);
   app.route("/api/users/delete/:userId").delete(user.delete_a_user);
 
 

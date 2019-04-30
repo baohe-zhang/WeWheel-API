@@ -3,6 +3,33 @@ User = mongoose.model("User");
 
 var url = require("url");
 
+exports.findUserById = (req, res) => {
+  const UserId = req.params.userId;
+  console.log("dhajkshfas");
+  User.findById(UserId)
+    .exec()
+    .then(doc => {
+      if (!doc) {
+        res.status(404).json({
+          message: `Cannot find the  user with id ${UserId}`,
+          data: UserId
+        });
+      } else {
+        res.status(200).json({
+          messgae: "GET OK",
+          data: doc
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: `Failed to find the car with id ${UserId}`,
+        data: []
+      });
+    });
+};
+
+
 exports.create_a_user = (req, res) => {
   /*
   let newUser = new User({

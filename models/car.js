@@ -16,7 +16,10 @@ var CarSchema = new mongoose.Schema({
   Picture: {
     type: String
   },
-
+  Capacity: {
+    type: Number,
+    default: 5
+  },
 
   Rating: {
     type: Number,
