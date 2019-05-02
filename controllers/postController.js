@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Post = mongoose.model('Post');
 const url = require("url");
 const Car = mongoose.model('Car');
+
+
 exports.createPost = (req, res) => {
     let post = req.body;
 
@@ -13,7 +15,7 @@ exports.createPost = (req, res) => {
         .then(doc => {
             res.status(201).json({
                 message: "Create Post",
-                dota: doc
+                data: doc
             });
         })
         .catch(err => {
@@ -49,79 +51,40 @@ exports.updatePostById = (req, res) => {
         });
 };
 
-exports.findPost = (req, res) => {
-    console.log("hi");
+exports.getPostById = (req, res) => {
 
-    const parsedUrl = url.parse(req.url, true);
-    if (!parsedUrl.search) {
-        Post.find()
-            .limit(100)
-            .exec()
-            .then(docs => {
-                res.status(200).json({
-                    message: "OKKKKKK",
-                    data: docs
+
+    const PostId = req.params.postId;
+    Post.findById(PostId)
+        .exec()
+        .then(doc => {
+            if (!doc) {
+                res.status(404).json({
+                    message: `Cannot find the car with id ${PostId}`,
+                    data: postId
                 });
-            })
-    } else {
-        let query = Post.find();
+            } else {
+                Car.findById(doc.CarId)
+                    .exec()
+                    .then(carinfo => {
+                        let postWithCar = JSON.parse(JSON.stringify(doc));
+                        postWithCar.Car = carinfo;
+                        res.status(200).json({
+                            message: "Get OK",
+                            data: postWithCar
+                        });
+                    })
 
-        if (parsedUrl.query.StartDate && parsedUrl.query.EndDate) {
-            query = query.find({
-                StartDate: {
 
-                    $lt: new Date(parsedUrl.query.StartDate + 'GMT-07:00').toISOString()
-                }
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: `Failed to find the car with id ${PostId}`,
+                data: []
             });
+        });
 
-            console.log(new Date(parsedUrl.query.StartDate).toISOString())
-
-            query = query.find({
-                EndDate: {
-                    $gte: new Date(parsedUrl.query.EndDate).toISOString()
-                }
-            });
-
-        }
-
-        if (parsedUrl.query.where)
-            query = query.where(JSON.parse(parsedUrl.query.where));
-        if (parsedUrl.query.sort)
-            query = query.sort(JSON.parse(parsedUrl.query.sort));
-        if (parsedUrl.query.select)
-            query = query.select(JSON.parse(parsedUrl.query.select));
-        if (parsedUrl.query.skip)
-            query = query.skip(JSON.parse(parsedUrl.query.skip));
-        if (parsedUrl.query.count)
-            query = query.count(JSON.parse(parsedUrl.query.count));
-        if (parsedUrl.query.limit)
-            query = query.limit(JSON.parse(parsedUrl.query.limit));
-
-        else query = query.limit(500);
-        //dkuegwh
-
-        query
-            .exec()
-            .then(docs => {
-                if (docs == null || docs.length == 0) {
-                    res.status(404).json({
-                        message: "Cannot find posts under these conditions",
-                        data: []
-                    });
-                } else {
-                    res.status(200).json({
-                        message: "Find post OK 123",
-                        data: docs
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(500).json({
-                    message: "Failed to get posts",
-                    data: []
-                });
-            });
-    }
 };
 
 exports.deletePostById = (req, res) => {
@@ -152,6 +115,7 @@ exports.deletePostById = (req, res) => {
 exports.findPostsWithCar = (req, res) => {
     console.log("jhqwkfhjk");
     const parsedUrl = url.parse(req.url, true);
+
     if (!parsedUrl.search) {
         Post.find()
             .limit(100)
@@ -181,7 +145,7 @@ exports.findPostsWithCar = (req, res) => {
                                 }
                             });
                         });
-                        console.log(data);
+                        //  console.log(data);
                         res.status(200).json({
                             message: "OK",
                             data: data
@@ -210,8 +174,14 @@ exports.findPostsWithCar = (req, res) => {
 
         }
         console.log(parsedUrl.query);
-        if (parsedUrl.query.where && parsedUrl.query.where != "*")
-            query = query.where(JSON.parse(parsedUrl.query.where));
+        if (parsedUrl.query.Capacity && parsedUrl.query.Capacity != "*")
+            query = query.where({
+                Capacity: parsedUrl.query.Capacity
+            });
+        if (parsedUrl.query.Location && parsedUrl.query.Location != "*")
+            query = query.where({
+                Location: parsedUrl.query.Location
+            });
         if (parsedUrl.query.sort && parsedUrl.query.sort != "*")
             query = query.sort(JSON.parse(parsedUrl.query.sort));
         if (parsedUrl.query.select && parsedUrl.query.select != "*")
@@ -253,7 +223,7 @@ exports.findPostsWithCar = (req, res) => {
                                 }
                             });
                         });
-                        console.log(data);
+                        // console.log(data);
                         res.status(200).json({
                             message: "OK",
                             data: data

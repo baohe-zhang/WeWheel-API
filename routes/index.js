@@ -7,7 +7,7 @@ module.exports = function (app, router, passport) {
 
   var user = require("../controllers/userController");
   var car = require("../controllers/carController");
-  var post = require("../routes/postController");
+  var post = require("../controllers/postController");
   var comment = require("../controllers/commentController");
   var rate = require("../controllers/rateController");
 
@@ -47,6 +47,7 @@ module.exports = function (app, router, passport) {
   app
     .route("/api/post/:postId")
     //    .put(passport.authenticate('local'), post.updatePostById)
+    .get(post.getPostById)
     .put(post.updatePostById)
     .delete(passport.authenticate('local'), post.deletePostById);
 

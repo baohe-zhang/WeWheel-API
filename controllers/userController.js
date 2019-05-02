@@ -112,10 +112,14 @@ exports.log_out_user = (req, res) => {
 };
 
 exports.update_a_user = (req, res) => {
+
   User.findByIdAndUpdate({
+
       _id: req.params.userId
-    }, req.body, {
-      new: true
+    }, {
+      $set: req.body
+    }, {
+      $multi: true
     })
     .exec()
     .then(doc => {
@@ -126,8 +130,8 @@ exports.update_a_user = (req, res) => {
     })
     .catch(err => {
       res.status(500).json({
-        message: "Failed to updat a car",
-        data: []
+        message: "Failed to update a car",
+        data: err
       });
     })
 
