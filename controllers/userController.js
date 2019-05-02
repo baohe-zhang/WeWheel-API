@@ -110,7 +110,34 @@ exports.log_out_user = (req, res) => {
   console.log(req.isAuthenticated());
 
 };
+exports.findUserByuserName = (req, res) => {
 
+  console.log(req.params.userName)
+  User.find({
+      "UserName": req.params.userName
+    })
+    .exec()
+    .then(doc => {
+      if (!doc) {
+        res.status(404).json({
+          message: `Cannot find the  user with id ${UserName}`,
+          data: userName
+        });
+      } else {
+        res.status(200).json({
+          messgae: "GET OK",
+          data: doc
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: `Failed to find the car with id ${UserId}`,
+        data: []
+      });
+    });
+
+};
 exports.update_a_user = (req, res) => {
 
   User.findByIdAndUpdate({

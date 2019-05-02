@@ -119,10 +119,12 @@ exports.updateCarById = (req, res) => {
   const car = req.body;
   const carId = req.params.id;
 
-  Car.findByIdAndUpdate(carId, {
-      $set: car
+  Car.findByIdAndUpdate({
+      _id: req.params.userId
     }, {
-      new: true
+      $set: req.body
+    }, {
+      $multi: true
     })
     .exec()
     .then(doc => {

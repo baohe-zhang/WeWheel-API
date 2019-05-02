@@ -30,12 +30,13 @@ exports.createPost = (req, res) => {
 exports.updatePostById = (req, res) => {
     const post = req.body;
     const postId = req.params.postId;
-    Post.findByIdAndUpdate(
-            postId, {
-                $set: post
-            }, {
-                new: true
-            })
+    Post.findByIdAndUpdate({
+            _id: req.params.userId
+        }, {
+            $set: req.body
+        }, {
+            $multi: true
+        })
         .exec()
         .then(doc => {
             res.status(200).json({

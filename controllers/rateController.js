@@ -49,10 +49,12 @@ exports.createRate = (req, res) => {
 exports.updateRateById = (req, res) => {
     const rate = req.body;
     const rateId = req.params.id;
-    Rate.findByIdAndUpdate(rateId, {
-            $set: rate
+    Rate.findByIdAndUpdate({
+            _id: req.params.userId
         }, {
-            new: true
+            $set: req.body
+        }, {
+            $multi: true
         })
         .exec()
         .then(doc => {

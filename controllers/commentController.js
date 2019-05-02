@@ -49,10 +49,12 @@ exports.createComment = (req, res) => {
 exports.updateCommentById = (req, res) => {
     const comment = req.body;
     const commentId = req.params.id;
-    Comment.findByIdAndUpdate(commentId, {
-            $set: comment
+    Comment.findByIdAndUpdate({
+            _id: req.params.userId
         }, {
-            new: true
+            $set: req.body
+        }, {
+            $multi: true
         })
         .exec()
         .then(doc => {

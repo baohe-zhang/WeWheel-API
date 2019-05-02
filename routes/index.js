@@ -21,6 +21,8 @@ module.exports = function (app, router, passport) {
     .post(user.update_a_user)
     .get(user.findUserById);
   app.route("/api/users/delete/:userId").delete(user.delete_a_user);
+  app.route("/api/users/username/:userName")
+    .get(user.findUserByuserName)
 
 
   //car function
