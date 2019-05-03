@@ -103,16 +103,13 @@ exports.createCar = (req, res) => {
     .then(doc => {
       console.log(req.body.UserName);
       console.log(doc._id);
-      User.findOneAndUpdate(
-        {
-          UserName: req.body.UserName
-        },
-        {
-          $push: {
-            MyCars: doc._id
-          }
+      User.findOneAndUpdate({
+        UserName: req.body.UserName
+      }, {
+        $push: {
+          MyCars: doc._id
         }
-      ).exec();
+      }).exec();
 
       res.status(201).json({
         message: "POST OK",
@@ -132,17 +129,13 @@ exports.updateCarById = (req, res) => {
   const car = req.body;
   const carId = req.params.id;
 
-  Car.findByIdAndUpdate(
-    {
+  Car.findByIdAndUpdate({
       _id: req.params.userId
-    },
-    {
+    }, {
       $set: req.body
-    },
-    {
+    }, {
       $multi: true
-    }
-  )
+    })
     .exec()
     .then(doc => {
       res.status(200).json({
@@ -160,21 +153,23 @@ exports.updateCarById = (req, res) => {
 
 /* Delete a car by id. */
 exports.deleteCarById = (req, res) => {
-  const carId = req.params.id;
+  const carId = req.params.carId;
   Car.findByIdAndDelete(carId)
     .exec()
     .then(doc => {
-      if (!doc) {
-        res.status(404).json({
-          message: `Cannot find the user with id ${carId}`,
-          data: []
-        });
-      } else {
-        res.status(200).json({
-          message: "DELETE OK",
-          data: doc
-        });
-      }
+      console.log(doc._id)
+      User.findOneAndUpdate({
+
+          "UserName": req.body.UserName
+        }, {
+          $pull: {
+            MyCars: doc._id
+          }
+        })
+        .exec()
+
+
+
     })
     .catch(err => {
       res.status(500).json({

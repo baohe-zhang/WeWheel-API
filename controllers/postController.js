@@ -21,10 +21,7 @@ exports.createPost = (req, res) => {
                     }
                 })
                 .exec()
-            res.status(201).json({
-                message: "Create Post",
-                data: doc
-            });
+
         })
         .catch(err => {
             res.status(500).json({
@@ -97,21 +94,25 @@ exports.getPostById = (req, res) => {
 };
 
 exports.deletePostById = (req, res) => {
-    const postId = req.params.id;
+    const postId = req.params.postId;
+    console.log("here")
+    console.log(req.body);
+
     Post.findByIdAndDelete(postId)
         .exec()
         .then(doc => {
-            if (!doc) {
-                res.status(404).json({
-                    message: 'Cannot find the post with id ${postId}',
-                    data: []
-                });
-            } else {
-                res.status(200).json({
-                    message: "DELETE OK",
-                    data: doc
-                });
-            }
+            console.log(doc._id)
+            User.findOneAndUpdate({
+
+                    "UserName": req.body.UserName
+                }, {
+                    $pull: {
+                        MyPosts: doc._id
+                    }
+                })
+                .exec()
+
+
         })
         .catch(err => {
             res.status(500).json({

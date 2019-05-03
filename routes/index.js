@@ -2,7 +2,7 @@
  * Connect all of your endpoints together here.
  */
 
-module.exports = function(app, router, passport) {
+module.exports = function (app, router, passport) {
   app.use("/api", require("./home.js")(router));
 
   var user = require("../controllers/userController");
@@ -35,8 +35,8 @@ module.exports = function(app, router, passport) {
   app
     .route("/api/car/:carId")
     .get(car.findCarById)
-    .put(passport.authenticate("local"), car.updateCarById)
-    .delete(passport.authenticate("local"), car.deleteCarById);
+    .put(car.updateCarById)
+    .delete(car.deleteCarById);
 
   //post function
   app.route("/api/posts/createPost").post(post.createPost);
@@ -46,7 +46,7 @@ module.exports = function(app, router, passport) {
     //    .put(passport.authenticate('local'), post.updatePostById)
     .get(post.getPostById)
     .put(post.updatePostById)
-    .delete(passport.authenticate("local"), post.deletePostById);
+    .delete(post.deletePostById);
 
   //Rate function
   app.route("/api/rates/createRate").post(rate.createRate);
