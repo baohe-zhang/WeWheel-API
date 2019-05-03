@@ -21,6 +21,10 @@ exports.createPost = (req, res) => {
                     }
                 })
                 .exec()
+            res.status(200).json({
+                  message: "add OK",
+                  data: doc
+                });
 
         })
         .catch(err => {
@@ -111,6 +115,10 @@ exports.deletePostById = (req, res) => {
                     }
                 })
                 .exec()
+            res.status(200).json({
+                message: "Delete Successfully!",
+                data: doc
+            });
 
 
         })
