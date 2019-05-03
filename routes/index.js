@@ -2,7 +2,7 @@
  * Connect all of your endpoints together here.
  */
 
-module.exports = function (app, router, passport) {
+module.exports = function(app, router, passport) {
   app.use("/api", require("./home.js")(router));
 
   var user = require("../controllers/userController");
@@ -10,6 +10,7 @@ module.exports = function (app, router, passport) {
   var post = require("../controllers/postController");
   var comment = require("../controllers/commentController");
   var rate = require("../controllers/rateController");
+  var favorite = require("../controllers/favoriteController");
 
   //User functions
   app.route("/api/users/register").post(user.create_a_user);
@@ -61,4 +62,7 @@ module.exports = function (app, router, passport) {
     .get(comment.findCommentById)
     .put(comment.updateCommentById)
     .delete(comment.deleteCommentById);
+
+  // Favrite function
+  app.route("/api/favorite/add").post(favorite.addCarToFavorite);
 };

@@ -5,7 +5,6 @@ var url = require("url");
 
 exports.findUserById = (req, res) => {
   const UserId = req.params.userId;
-  console.log("dhajkshfas");
   User.findById(UserId)
     .exec()
     .then(doc => {
@@ -109,6 +108,7 @@ exports.log_out_user = (req, res) => {
   res.redirect("/");
   console.log(req.isAuthenticated());
 };
+
 exports.findUserByuserName = (req, res) => {
   console.log(req.params.userName);
   User.find({
@@ -135,6 +135,7 @@ exports.findUserByuserName = (req, res) => {
       });
     });
 };
+
 exports.update_a_user = (req, res) => {
   User.findByIdAndUpdate(
     {
