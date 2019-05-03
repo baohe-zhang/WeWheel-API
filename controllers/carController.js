@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const url = require("url");
-const User = mongoose.model("User")
+const User = mongoose.model("User");
 const Car = mongoose.model("Car");
 
 /* Find all cars that match specific query conditions. */
@@ -103,14 +103,16 @@ exports.createCar = (req, res) => {
     .then(doc => {
       console.log(req.body.UserName);
       console.log(doc._id);
-      User.findOneAndUpdate({
-          "UserName": req.body.UserName
-        }, {
+      User.findOneAndUpdate(
+        {
+          UserName: req.body.UserName
+        },
+        {
           $push: {
-            "MyCars": doc._id
+            MyCars: doc._id
           }
-        })
-        .exec()
+        }
+      ).exec();
 
       res.status(201).json({
         message: "POST OK",
@@ -130,13 +132,17 @@ exports.updateCarById = (req, res) => {
   const car = req.body;
   const carId = req.params.id;
 
-  Car.findByIdAndUpdate({
+  Car.findByIdAndUpdate(
+    {
       _id: req.params.userId
-    }, {
+    },
+    {
       $set: req.body
-    }, {
+    },
+    {
       $multi: true
-    })
+    }
+  )
     .exec()
     .then(doc => {
       res.status(200).json({
