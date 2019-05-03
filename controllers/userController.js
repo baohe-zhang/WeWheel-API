@@ -29,7 +29,6 @@ exports.findUserById = (req, res) => {
     });
 };
 
-
 exports.create_a_user = (req, res) => {
   /*
   let newUser = new User({
@@ -58,12 +57,13 @@ exports.create_a_user = (req, res) => {
         message: "Failed to create a User",
         data: []
       });
-    })
+    });
 };
 
 exports.auth_a_user = (req, res) => {
   console.log(req.isAuthenticated());
-  User.findOne({
+  User.findOne(
+    {
       UserName: req.body.UserName
     },
     (err, user) => {
@@ -78,7 +78,7 @@ exports.auth_a_user = (req, res) => {
             data: req.body.UserName
           });
         }
-        user.comparePassword(req.body.password, function (err, isMatch) {
+        user.comparePassword(req.body.password, function(err, isMatch) {
           if (err) {
             return res.status(400).json({
               message: err
@@ -108,14 +108,12 @@ exports.log_out_user = (req, res) => {
   req.logOut();
   res.redirect("/");
   console.log(req.isAuthenticated());
-
 };
 exports.findUserByuserName = (req, res) => {
-
-  console.log(req.params.userName)
+  console.log(req.params.userName);
   User.find({
-      "UserName": req.params.userName
-    })
+    UserName: req.params.userName
+  })
     .exec()
     .then(doc => {
       if (!doc) {
@@ -136,18 +134,19 @@ exports.findUserByuserName = (req, res) => {
         data: []
       });
     });
-
 };
 exports.update_a_user = (req, res) => {
-
-  User.findByIdAndUpdate({
-
+  User.findByIdAndUpdate(
+    {
       _id: req.params.userId
-    }, {
+    },
+    {
       $set: req.body
-    }, {
+    },
+    {
       $multi: true
-    })
+    }
+  )
     .exec()
     .then(doc => {
       res.status(200).json({
@@ -160,9 +159,7 @@ exports.update_a_user = (req, res) => {
         message: "Failed to update a car",
         data: err
       });
-    })
-
-
+    });
 };
 
 exports.delete_a_user = (req, res) => {
@@ -172,7 +169,7 @@ exports.delete_a_user = (req, res) => {
     .then(doc => {
       if (!doc) {
         res.status(404).json({
-          message: 'Cannot find the user with id ${userId}',
+          message: "Cannot find the user with id ${userId}",
           data: []
         });
       } else {

@@ -50,10 +50,8 @@ module.exports = function (app, router, passport) {
 
   //Rate function
   app.route("/api/rates/createRate").post(rate.createRate);
-  app
-    .route("/api/rates/:rateId")
-    .put(rate.updateRateById)
-    .delete(rate.deleteRateById);
+  app.route("/api/rates").get(rate.findRates);
+  app.route("/api/rates/:rateId").get(rate.findRateById);
 
   // Comment function
   app.route("/api/comments/createComment").post(comment.createComment);
