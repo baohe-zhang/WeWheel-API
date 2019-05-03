@@ -17,7 +17,7 @@ exports.createPost = (req, res) => {
                     "UserName": req.body.UserName
                 }, {
                     $push: {
-                        "MyCars": doc._id
+                        "MyPosts": doc._id
                     }
                 })
                 .exec()
