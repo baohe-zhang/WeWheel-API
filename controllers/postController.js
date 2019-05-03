@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Post = mongoose.model('Post');
 const url = require("url");
 const Car = mongoose.model('Car');
-
+const User = mongoose.model('User');
 
 exports.createPost = (req, res) => {
     let post = req.body;
@@ -13,6 +13,14 @@ exports.createPost = (req, res) => {
     post
         .save()
         .then(doc => {
+            User.findOneAndUpdate({
+                    "UserName": req.body.UserName
+                }, {
+                    $push: {
+                        "MyCars": doc._id
+                    }
+                })
+                .exec()
             res.status(201).json({
                 message: "Create Post",
                 data: doc
