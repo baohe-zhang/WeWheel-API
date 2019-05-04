@@ -4,5 +4,6 @@
 module.exports = {
   token: "secret-starter-mern",
   mongo_connection:
-    "mongodb+srv://wheel:wewewe123@cluster0-srzz7.mongodb.net/test?retryWrites=true"
+    // "mongodb+srv://wheel:wewewe123@cluster0-srzz7.mongodb.net/test?retryWrites=true"
+    "mongodb+srv://admin:admin@cluster0-kd6di.mongodb.net/test?retryWrites=true"
 };
