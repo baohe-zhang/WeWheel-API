@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const url = require("url");
-
 const Rate = mongoose.model("Rate");
+const Car = mongoose.model("Car");
 
 exports.findRates = (req, res) => {
   const parsedUrl = url.parse(req.url, true);
@@ -86,10 +86,42 @@ exports.createRate = (req, res) => {
   rate
     .save()
     .then(doc => {
-      res.status(201).json({
-        message: "Rate Ok",
-        data: doc
-      });
+      // re-calculate the rate of the car and update it
+      Rate.find({ CarId: rate.CarId })
+        .exec()
+        .then(rates => {
+          let totalScore = 0;
+          let count = rates.length;
+          let i;
+          for (i = 0; i < count; i++) {
+            totalScore += rates[i].Content;
+          }
+          let avg = totalScore / count;
+          // update the rating score to the car
+          Car.findByIdAndUpdate(
+            rate.CarId,
+            { $set: { Rating: avg } },
+            { new: true }
+          )
+            .exec()
+            .then(doc => {
+              console.log("rate ok");
+              res.status(201).json({
+                message: "Rate Ok",
+                data: doc.Rating
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                message: "Failed to update the count in car model"
+              });
+            });
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: "Faield to calculate the car's rating"
+          });
+        });
     })
     .catch(err => {
       res.status(500).json({
