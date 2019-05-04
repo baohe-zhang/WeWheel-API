@@ -1,6 +1,6 @@
 // Load required packages
 var mongoose = require("mongoose");
-var DateOnly = require('mongoose-dateonly')(mongoose);
+var DateOnly = require("mongoose-dateonly")(mongoose);
 // Define our user schema
 var PostSchema = new mongoose.Schema({
   CarId: {
@@ -28,11 +28,10 @@ var PostSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-
   Capacity: {
     type: Number,
     default: 5
-  },
+  }
 });
 
 // Export the Mongoose model

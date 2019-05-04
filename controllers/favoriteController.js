@@ -19,3 +19,21 @@ exports.addCarToFavorite = (req, res) => {
       });
     });
 };
+
+exports.deleteCarFromFavorite = (req, res) => {
+  const { userId, carId } = req.body;
+  User.findByIdAndUpdate(userId, { $pull: { LikedCars: carId } }, { new: true })
+    .exec()
+    .then(doc => {
+      res.status(201).json({
+        message: "Delete Favorite OK",
+        data: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Failed to delete the car from favorite list",
+        data: []
+      });
+    });
+};

@@ -11,6 +11,7 @@ module.exports = function(app, router, passport) {
   var comment = require("../controllers/commentController");
   var rate = require("../controllers/rateController");
   var favorite = require("../controllers/favoriteController");
+  var book = require("../controllers/bookController");
 
   //User functions
   app.route("/api/users/register").post(user.create_a_user);
@@ -65,4 +66,8 @@ module.exports = function(app, router, passport) {
 
   // Favrite function
   app.route("/api/favorite/add").post(favorite.addCarToFavorite);
+  app.route("/api/favorite/delete").post(favorite.deleteCarFromFavorite);
+
+  // Book function
+  app.route("/api/book/add").post(book.addCarToBook);
 };
